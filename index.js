@@ -25,6 +25,13 @@ async function run() {
         app.get('/',(req,res)=>{
             res.send('Warehouse server ready')
         })
+
+        app.get('/items', async(req,res)=>{ 
+            const query = {};
+            const cursor = itemsCollection.find(query);
+            const products = await cursor.toArray();
+            res.send(products);
+        })
         
 
     }
