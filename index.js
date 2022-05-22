@@ -35,6 +35,13 @@ async function run() {
             res.send(products);
         })
 
+        app.get('/items/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await itemsCollection.findOne(query);
+            res.send(result);
+        })
+
         app.post('/addItems',async(req,res)=>{
             const newItems = req.body;
             console.log('added new items',newItems );
@@ -50,6 +57,8 @@ async function run() {
             res.send(result);
 
         })
+
+
         
 
     }
