@@ -22,6 +22,7 @@ async function run() {
     try {
         await client.connect();
         const itemsCollection = client.db("items").collection("car");
+        const recommendation = client.db("items").collection("recommendation");
         console.log('Warehouse  Database Connected');
 
         app.get('/',(req,res)=>{
@@ -31,6 +32,13 @@ async function run() {
         app.get('/items', async(req,res)=>{ 
             const query = {};
             const cursor = itemsCollection.find(query);
+            const products = await cursor.toArray();
+            res.send(products);
+        });
+
+        app.get('/recommendation', async(req,res)=>{ 
+            const query = {};
+            const cursor = recommendation.find(query);
             const products = await cursor.toArray();
             res.send(products);
         })
@@ -48,6 +56,9 @@ async function run() {
             const result = await itemsCollection.insertOne(newItems);
             res.send(result)
         })
+
+        
+
 
         // delete a item or a car 
         app.delete('/items/:id',async(req,res)=>{
